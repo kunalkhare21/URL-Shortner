@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free URL Shortener </title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 500px 200px;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      height: 50%;
+      overflow: hidden;
+      background-color: #0a0a0a;
+      /* background-image: url('image.png'); */
+      background-size: cover;
+      background-position: center;
+      /* background-attachment: scroll;
+      background-repeat: no-repeat; */
+    }
+    
+    .background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    #canvas-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .container {
+      position: absolute;
+      top: 9%;
+      left: 85%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+    }
+    .words {
+      position: absolute;
+      top: 22%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+    }
+    .sub-head {
+      position: absolute;
+      top: 82%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+    }
+    /* .hii {
+      position: absolute;
+      top: 22%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1;
+    } */
+    .header {
+      font-size: 48px;
+      font-weight: 600;
+    }
+    .sub-header {
+      font-size: 24px;
+      margin-top: 10px;
+      font-weight: 300;
+    }
+    .button {
+      background-color: #00a9e0;
+      padding: 15px 30px;
+      font-size: 18px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 30px;
+      text-decoration: none;
+    }
+    .button:hover {
+      background-color: #0289a5;
+    }
+    .footer {
+      position: absolute;
+      top: 5%;
+      left:22%;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      color: #b0b0b0;
+    }
+    .footer a {
+      color: #b0b0b0;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      color: white;
+    }
+
+    /* Digital ZT Text Styling */
+    .digital-zt {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 2;
+      font-size: 40px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .digital {
+      color: white;
+      text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white, 0 0 40px white, 0 0 50px white;
+    }
+    .zt {
+      color: #00a9e0; /* Blue color */
+      font-size: 30px;
+      text-shadow: 0 0 10px #00a9e0, 0 0 20px #00a9e0, 0 0 30px #00a9e0;
+      position: relative;
+      top: 30px; /* Adjust this value to move ZT further down */
+      left:-40%;
+    }
+
+
+   
+
+    /* Hamburger Menu Styles */
+    .menu-bar {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      width: 30px;
+      height: 25px;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .menu-bar div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      border-radius: 5px;
+    }
+
+    /* Hide the menu items initially */
+    .menu-content {
+      position: absolute;
+      top: 20px;
+      right: 0;
+      background-color: #333;
+      width: 200px;
+      display: none;
+      flex-direction: column;
+      padding: 10px;
+    }
+
+    .menu-content a {
+      text-decoration: none;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #444;
+    }
+
+    .menu-content a:hover {
+      background-color: #444;
+    }
+
+    /* Show the menu when it's active */
+    .menu-content.active {
+      display: flex;
+    }
+
+  </style>
+</head>
+<body>
+    
+  <!-- 3D Globe Canvas -->
+  <div id="canvas-container"></div>
+
+  <!-- Digital ZT Text -->
+  <div class="digital-zt">
+    <span class="digital">Digital</span>
+    <span class="zt">ZT</span>
+    <!-- <div class="oval-fence"></div> Oval Fence Effect -->
+  </div>
+
+  
+  <!-- Hamburger Menu -->
+  <div class="menu-bar" onclick="toggleMenu()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <!-- Menu Content -->
+  <div class="menu-content">
+    <a href="#">Home</a>
+    <a href="#">Features</a>
+    <a href="#">Pricing</a>
+    <a href="#">Blog</a>
+    <a href="#">Docs</a>
+  </div>
+
+  <!-- URL Shortener Content -->
+  <div class="container">
+    <!-- <a href="#" class="button">Get Started</a> -->
+    <a href="http://localhost:611/" class="button">Get Started</a>
+
+  </div>
+  
+  <div class="words">
+    <div class="header">Free URL Shortener</div>
+  </div>
+  
+
+  <div class="sub-head">
+    <div class="sub-header">Easily and fastest create shortened versions of your URLs for sharing.</div>
+    <div class="sub-header">Built with Digital Edge Functions.</div>
+  </div>
+
+  <div class="footer">
+    <!-- <p>Features | Integrations | Pricing | Blog | Docs</p> -->
+    <p><a href="#">Sign In</a></p>
+  </div>
+
+  <!-- Three.js for 3D Globe Animation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // Set up the scene, camera, and renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true }); // Make the background transparent
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+    // Create a sphere (globe) for Earth
+    const earthGeometry = new THREE.SphereGeometry(5, 32, 32);
+    const earthMaterial = new THREE.MeshBasicMaterial({ color: 0x1e90ff, wireframe: true });
+    const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+    scene.add(earth);
+
+    // Add starry sky background
+    const starsGeometry = new THREE.BufferGeometry();
+    const starsCount = 10000;
+    const starsPositions = new Float32Array(starsCount * 3);
+    
+    for (let i = 0; i < starsCount * 3; i++) {
+      starsPositions[i] = (Math.random() - 0.5) * 2000; // Random position for stars in 3D space
+    }
+
+    starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
+    const starsMaterial = new THREE.PointsMaterial({ color: 0x888888, size: 0.5 });
+    const stars = new THREE.Points(starsGeometry, starsMaterial);
+    scene.add(stars);
+
+    // Set the camera position
+    camera.position.z = 15;
+
+    // Rotate the globe and particles
+    function animate() {
+      requestAnimationFrame(animate);
+      earth.rotation.y += 0.001;
+      stars.rotation.y += 0.0001; // Slow rotation of the stars for a subtle effect
+      renderer.render(scene, camera);
+    }
+    
+    animate();
+    
+    // Adjust the scene when the window is resized
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+
+    // Toggle the menu visibility
+    function toggleMenu() {
+      const menu = document.querySelector('.menu-content');
+      menu.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
+
+
