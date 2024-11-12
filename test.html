@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <title>URL Shortener</title>
+    <style>
+      /* Body styling */
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        margin: 0;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        background-color: white;
+        color: #333;
+        padding: 20px;
+      }
+
+      /* Footer styling */
+      .footer {
+        background-color: #333;
+        color: #fff;
+        padding: 40px 0;
+        text-align: center;
+        width: 100%;
+      }
+
+      .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .footer-links,
+      .footer-social {
+        margin: 10px;
+      }
+
+      .footer h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .footer a {
+        color: #00b4d8;
+        text-decoration: none;
+        display: block;
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+      .footer-social .social-icon {
+        font-size: 20px;
+        color: #00b4d8;
+        margin: 0 10px;
+        transition: color 0.3s;
+      }
+
+      .footer-social .social-icon:hover {
+        color: #00a3c4;
+      }
+
+      /* Main heading with gradient color */
+      .heading {
+        font-size: 32px;
+        font-weight: bold;
+        background: linear-gradient(45deg, #0077b6, #00b4d8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      /* Input and button styling */
+      .input-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 20px 0;
+      }
+
+      .label {
+        font-size: 16px;
+        color: #333;
+      }
+
+      .url-input {
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        width: 300px;
+        transition: box-shadow 0.3s;
+      }
+
+      .url-input:focus {
+        border-color: #0077b6;
+        box-shadow: 0 0 5px rgba(0, 119, 182, 0.3);
+      }
+
+      .button {
+        background-color: #0077b6;
+        color: white;
+        padding: 12px 24px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      .button:hover {
+        background-color: #005f8d;
+      }
+
+      /* Result section styling */
+      .result {
+        margin-top: 20px;
+        text-align: left;
+      }
+
+      .result p {
+        margin: 10px 0;
+        font-size: 16px;
+      }
+
+      .original-url,
+      .short-url {
+        font-weight: bold;
+        color: #0077b6;
+      }
+
+      marquee {
+        font-weight: lighter;
+        font-size: 20px;
+      }
+
+      /* Content section styling */
+      .content-section {
+        width: 80%;
+        max-width: 600px;
+        color: #5d5a5a;
+        text-align: justify;
+        margin-top: 40px;
+      }
+
+      .content-section h2 {
+        font-size: 24px;
+        color: #333;
+        background: linear-gradient(45deg, #0077b6, #00b4d8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+      }
+
+      .content-section p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 15px;
+        text-align: justify; /* This adds the justification */
+      }
+
+      /* New Section Styling */
+      .features-section {
+        width: 80%;
+        max-width: 600px;
+        color: #333;
+        text-align: justify;
+        margin-top: 40px;
+      }
+
+      .features-section h2 {
+        font-size: 24px;
+        color: #333;
+        background: linear-gradient(45deg, #0077b6, #00b4d8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+      }
+      /* Modify the icons-container class */
+      /* Modify the icons-container class to use grid layout */
+      .icons-container {
+        display: grid;
+        grid-template-columns: repeat(
+          3,
+          1fr
+        ); /* 4 icons per row (adjust this number for more/less columns) */
+        gap: 10px; /* Add space between icons */
+        margin-top: 30px; /* Adjust the top margin for proper spacing */
+        width: 40%;
+        justify-items: center; /* Center-align the icons in each cell */
+        font-size: 50px; /* Adjust this to a smaller size */
+        margin: 15px; /* Keep spacing between icons */
+        color: #0077b6; /* Icon color */
+      }
+
+      .features-section ul {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .features-section li {
+        margin-bottom: 10px;
+      }
+
+      .footer-founder {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="heading">URL Shortener</div>
+
+    <div class="input-container">
+      <span class="label">Enter URL to shorten:</span>
+      <input
+        type="text"
+        id="urlInput"
+        class="url-input"
+        placeholder="Paste URL here"
+      />
+      <button class="button" onclick="shortenUrl()">Shorten URL</button>
+    </div>
+
+    <div class="result" id="resultContainer" style="display: none">
+      <p>
+        <span class="original-url">Original URL:</span>
+        <span id="originalUrl"></span>
+      </p>
+      <p>
+        <span class="short-url">Shortened URL:</span>
+        <span id="shortenedUrl"></span>
+      </p>
+    </div>
+
+    <marquee>Utilize this tool to generate concise, shareable links.</marquee>
+
+    <div class="content-section">
+      <h2>How URL Shorteners Work</h2>
+      <p>
+        URL shorteners work by taking a long web address and converting it into
+        a short, unique link that redirects to the original URL. This is
+        especially useful in digital marketing, social media, and communication,
+        where shorter URLs are easier to share and remember.
+      </p>
+      <p>
+        When a user clicks on a shortened URL, the request is sent to a URL
+        shortening server, which looks up the original address and forwards the
+        user to the intended page. This redirection process is quick and often
+        includes tracking to measure click data, such as the number of visitors
+        and their geographic location.
+      </p>
+      <p>
+        Behind the scenes, URL shorteners generate unique codes that are added
+        to the end of a base URL (like <em>https://short.ly/abc123</em>). These
+        codes are stored in a database along with the original URLs for future
+        access, making URL shorteners a helpful tool in the digital space.
+      </p>
+    </div>
+
+    <!-- New Section: Key Features of Digital ZTs URL Shortener -->
+    <div class="features-section">
+      <h2>Key Features of Digital ZTs URL Shortener</h2>
+      <ul>
+        <li>
+          <strong>Easy-to-use Interface:</strong> A simple, clean design allows
+          users to quickly shorten URLs with minimal steps, enhancing user
+          experience.
+        </li>
+        <li>
+          <strong>Customizable Short Links:</strong> Users can create
+          personalized short URLs, making them more relevant and memorable.
+        </li>
+        <li>
+          <strong>Click Tracking:</strong> Integrated analytics allow users to
+          track the performance of shortened URLs, including clicks, locations,
+          and more.
+        </li>
+        <li>
+          <strong>Fast Redirection:</strong> The URL shortener ensures quick and
+          seamless redirection to the original URL with no noticeable delay.
+        </li>
+        <li>
+          <strong>Secure and Reliable:</strong> The service uses
+          industry-standard security practices, ensuring safe and uninterrupted
+          URL shortening and redirection.
+        </li>
+        <li>
+          <strong>Free and Accessible:</strong> The Digital ZTs URL Shortener is
+          available to everyone, with no hidden fees or requirements.
+        </li>
+      </ul>
+    </div>
+
+    <!-- New Section: What is Digital ZT -->
+    <div class="content-section">
+      <h3>WHAT IS DIGITAL ZT?</h3>
+      <!-- New Section: What is Digital ZT (Short Description) -->
+      <div
+        class="short-description"
+        style="
+          font-size: 30px;
+          font-weight: bold;
+          color: #0077b6, #00b4d8;
+          margin-top: 20px;
+        "
+      >
+        Innovative Digital Solutions Platform for Businesses and Individuals.
+      </div>
+      <p style="font-size: 14px; color: #777">
+        Digital ZT (Digital Zip Tag) is a cutting-edge digital solutions
+        platform designed to streamline and enhance online services. Offering a
+        range of tools tailored to meet both personal and business needs, it
+        ensures high efficiency, ease of use, and robust performance. From URL
+        shortening to advanced digital marketing solutions, Digital ZT empowers
+        users with innovative tools to optimize their digital workflows.
+      </p>
+      <p style="font-size: 14px; color: #777">
+        At its core, Digital ZT is about improving user experience by offering
+        intuitive tools that are easy to navigate. With a strong focus on
+        security, reliability, and speed, Digital ZT aims to be a leader in
+        digital services that allow individuals and businesses to stay connected
+        and stay ahead in the fast-paced digital world.
+      </p>
+      <p style="font-size: 14px; color: #777">
+        The platform is also continuously evolving, integrating new technologies
+        and responding to the ever-changing demands of the digital landscape.
+        Whether you're an entrepreneur, a digital marketer, or an everyday user,
+        Digital ZT brings the best of digital solutions to your fingertips.
+      </p>
+    </div>
+
+    <head>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      />
+    </head>
+
+    <body>
+      <div class="icons-container">
+        <i class="fas fa-search" title="Search"></i>
+        <!-- Search Icon -->
+        <i class="fas fa-globe" title="Global"></i>
+        <!-- Global Icon -->
+        <i class="fas fa-clock" title="Time Optimization"></i>
+        <!-- Time Optimization Icon -->
+        <i class="fas fa-shield-alt" title="Security"></i>
+        <!-- Security Icon -->
+        <i class="fas fa-lock" title="Protection"></i>
+        <!-- Protection Icon -->
+        <i class="fas fa-calendar-check" title="Task Scheduling"></i>
+        <!-- Task Scheduling Icon -->
+        <i class="fas fa-link" title="URL Shortener"></i>
+        <!-- URL Shortener Icon -->
+        <i class="fas fa-share-alt" title="Share"></i>
+        <!-- Share Icon -->
+        <i class="fas fa-clipboard" title="Clipboard"></i>
+        <!-- Clipboard Icon -->
+        <i class="fas fa-clipboard-check" title="Clipboard Check"></i>
+        <!-- Clipboard Check Icon -->
+        <i class="fas fa-qrcode" title="QR Code"></i>
+        <!-- QR Code Icon -->
+        <i class="fas fa-hand-pointer" title="Easy-to-use Interface"></i>
+      </div>
+      <!-- Footer Section -->
+      <!-- Footer Section -->
+      <!-- Footer Section -->
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-links">
+            <h3>Contact Us</h3>
+            <p>Email: kunalkhare123456@gmail.com</p>
+          </div>
+
+          <div class="footer-links">
+            <h3>Quick Links</h3>
+            <a href="#">FAQ</a>
+            <a href="#">Help</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+          </div>
+
+          <div class="footer-social">
+            <h3>Get in Touch with Us</h3>
+            <a href="#" aria-label="Facebook" class="social-icon"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" aria-label="Twitter" class="social-icon"
+              ><i class="fab fa-twitter"></i
+            ></a>
+            <a
+              href="instagram.com/kunalkhare21"
+              aria-label="Instagram"
+              class="social-icon"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a
+              href="https://www.linkedin.com/in/kunal-khare-21-/"
+              aria-label="LinkedIn"
+              class="social-icon"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+            <a
+              href="https://github.com/kunalkhare21"
+              aria-label="GitHub"
+              class="social-icon"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Founder Section -->
+      <div class="footer-founder">
+        <p>Founder of this website - Kunal Khare</p>
+      </div>
+    </body>
+
+    <script>
+      function shortenUrl() {
+        const urlInput = document.getElementById("urlInput").value;
+        const resultContainer = document.getElementById("resultContainer");
+        const originalUrl = document.getElementById("originalUrl");
+        const shortenedUrl = document.getElementById("shortenedUrl");
+
+        // Clear previous result
+        resultContainer.style.display = "none";
+
+        // Simulate URL shortening process (you may replace it with an actual API request)
+        const data = {
+          original_url: urlInput,
+          short_url: "http://localhost:611/shorten", // Replace with actual shortened URL from your backend
+        };
+
+        // Display the result in the frontend
+        originalUrl.textContent = data.original_url;
+        shortenedUrl.textContent = data.short_url;
+        resultContainer.style.display = "block";
+
+        // Now send a request to the backend to handle the redirect
+        fetch(`http://localhost:611/shorten`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            url: data.original_url, // Make sure the field name matches what the server expects
+          }),
+        })
+          .then((response) => response.json())
+          .then((res_data) => {
+            console.log("Redirect Response:", res_data.short_url);
+            data.short_url = res_data.short_url;
+            originalUrl.textContent = data.original_url;
+            shortenedUrl.textContent =
+              "http://localhost:611/redirect/" + data.short_url;
+          })
+          .catch((error) => {
+            console.error("Error redirecting:", error);
+            alert("Error during redirection. Please try again.");
+          });
+      }
+    </script>
+  </body>
+</html>
