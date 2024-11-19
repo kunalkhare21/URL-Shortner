@@ -27,7 +27,7 @@ var collection *mongo.Collection
 
 func connectToMongoDB() {
 	var err error
-	client, err = mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb+srv://kunalkhare21:KUNALKHARE21@cluster0.lqma2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"))
+	client, err = mongo.Connect(context.TODO(), options.Client().ApplyURI("LINL WITH YOUR DATABASE"))
 	if err != nil {
 		fmt.Println("Error connecting to MongoDB:", err)
 		return
